@@ -5,7 +5,7 @@ namespace OuterEdge\RelatedProductPricing\Block\Adminhtml\Product\Edit\Tab;
 use Magento\Backend\Block\Widget\Grid\Column;
 use Magento\Backend\Block\Widget\Grid\Extended;
 
-class Related extends Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Related
+class Related extends \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Related
 {
     /**
      * Checks when this block is readonly
