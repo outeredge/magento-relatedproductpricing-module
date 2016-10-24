@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <preference for="Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Related" type="OuterEdge\RelatedProductPricing\Block\Adminhtml\Product\Edit\Tab\Related" />
+</config>
