@@ -56,7 +56,7 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
                 'arguments' => [
                     'data' => [
                         'config' => [
-                              'label' => __('PriceEditable'),
+                            'label' => __('PriceEditable'),
                             'dataType' => Number::NAME,
                             'formElement' => Input::NAME,
                             'componentType' => Field::NAME,
@@ -75,7 +75,7 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
         ]);
     }
 
-     /**
+    /**
      * Prepare data column
      *
      * @param ProductInterface $linkedProduct
@@ -96,5 +96,49 @@ class Related extends \Magento\Catalog\Ui\DataProvider\Product\Form\Modifier\Rel
             'price' => ($linkItem->getPrice() !== null ?  $linkItem->getPrice() : $linkedProduct->getPrice()),
             'position' => $linkItem->getPosition(),
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function modifyData(array $data)
+    {
+        /** @var \Magento\Catalog\Model\Product $product */
+        $product = $this->locator->getProduct();
+        $productId = $product->getId();
+
+        if (!$productId) {
+            return $data;
+        }
+
+        foreach ($this->getDataScopes() as $dataScope) {
+            $data[$productId]['links'][$dataScope] = [];
+            foreach ($this->productLinkRepository->getList($product) as $linkItem) {
+                if ($linkItem->getLinkType() !== $dataScope) {
+                    continue;
+                }
+
+                /** @var \Magento\Catalog\Model\Product $linkedProduct */
+                $linkedProduct = $this->productRepository->get(
+                    $linkItem->getLinkedProductSku(),
+                    false,
+                    $this->locator->getStore()->getId()
+                );
+                $data[$productId]['links'][$dataScope][] = $this->fillData($linkedProduct, $linkItem);
+            }
+            if (!empty($data[$productId]['links'][$dataScope])) {
+                $dataMap = [
+                    'data' => [
+                        'items' => $data[$productId]['links'][$dataScope]
+                    ]
+                ];
+                $data[$productId]['links'][$dataScope] = $dataMap['data']['items'];
+            }
+        }
+
+        $data[$productId][self::DATA_SOURCE_DEFAULT]['current_product_id'] = $productId;
+        $data[$productId][self::DATA_SOURCE_DEFAULT]['current_store_id'] = $this->locator->getStore()->getId();
+
+        return $data;
     }
 }
