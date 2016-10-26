@@ -27,8 +27,12 @@ class Repository extends \Magento\Catalog\Model\ProductLink\Repository
                     ->setLinkType($linkTypeName)
                     ->setLinkedProductSku($item['sku'])
                     ->setLinkedProductType($item['type'])
-                    ->setPrice($item['price'])
                     ->setPosition($item['position']);
+
+                if (isset($item['price'])) {
+                    $productLink->setPrice($item['price']);
+                }
+
                 if (isset($item['custom_attributes'])) {
                     $productLinkExtension = $productLink->getExtensionAttributes();
                     if ($productLinkExtension === null) {
