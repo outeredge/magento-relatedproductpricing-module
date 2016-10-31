@@ -7,4 +7,5 @@
     <preference for="Magento\Catalog\Model\ProductLink\Link" type="OuterEdge\RelatedProductPricing\Model\ProductLink\Link" />
     <preference for="Magento\Catalog\Model\ProductLink\Converter\DefaultConverter" type="OuterEdge\RelatedProductPricing\Model\ProductLink\Converter\DefaultConverter" />
     <preference for="Magento\Catalog\Model\ProductLink\Repository" type="OuterEdge\RelatedProductPricing\Model\ProductLink\Repository" />
+    <preference for="Magento\Catalog\Block\Product\ProductList\Related" type="OuterEdge\RelatedProductPricing\Block\Product\ProductList\Related" />
 </config>
